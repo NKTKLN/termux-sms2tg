@@ -22,7 +22,7 @@ class HashStorage:
         Args:
             filename (str): Path to the JSON file used for hash persistence.
         """
-        self.filename = filename
+        self.filename = Path(filename)
         self.hashes = self._load()
 
     def _load(self) -> set[str]:
@@ -32,11 +32,11 @@ class HashStorage:
             set[str]: Stored hash values. Returns an empty set if the file does
                 not exist, cannot be read, or contains invalid data.
         """
-        if not Path.exists(self.filename):
+        if not self.filename.exists():
             return set()
 
         try:
-            with Path.open(self.filename, encoding="utf-8") as file:
+            with self.filename.open(encoding="utf-8") as file:
                 data = json.load(file)
 
             if isinstance(data, list):
@@ -52,7 +52,7 @@ class HashStorage:
         Raises:
             OSError: If the storage file cannot be written.
         """
-        with Path.open(self.filename, "w", encoding="utf-8") as file:
+        with self.filename.open("w", encoding="utf-8") as file:
             json.dump(list(self.hashes), file, ensure_ascii=False, indent=2)
 
     def check_and_add(self, hash_value: str) -> bool:

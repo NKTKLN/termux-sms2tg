@@ -110,7 +110,7 @@ Make sure the bot is added to the target chat and allowed to send messages.
 Start the application with Python:
 
 ```bash
-python -m termux_sms2tg.main
+python -m src.termux_sms2tg.main
 ```
 
 ## ⚠️ Notes
