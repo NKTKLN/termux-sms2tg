@@ -1,143 +1,126 @@
-# 🐍 Python Project Template
+# 📲 Termux SMS to Telegram
 
-**python-project-template** is a starter template for Python projects with advanced setup for code quality tools, static analysis, formatting, testing, coverage control, dependency security auditing, and release automation.
+**termux_sms2tg** is a Python-based utility that monitors SMS messages and incoming calls on Android through **Termux API** and forwards new events to a **Telegram chat**.
 
-This template uses modern tooling such as `uv`, `ruff`, `mypy`, `pytest`, `pre-commit`, `commitizen`, `hatchling` and `gitleaks`, along with a ready-to-use `Taskfile.yml` for convenient task management.
+The project runs in a polling loop, reads records from Termux commands, filters already processed events by hash, and sends notifications via a Telegram bot.
 
-## 📦 Dependencies
+## 📦 Requirements
 
-* [Python 3.13+](https://www.python.org/downloads/)
-* [uv](https://docs.astral.sh/uv/getting-started/installation/)
-* [commitizen](https://commitizen-tools.github.io/commitizen/#installation)
-* [Docker](https://docs.docker.com/get-docker/)
-* [Task](https://taskfile.dev/)
+Before installation, make sure you have:
 
-## ⚙️ Configuration & Features
+* An Android device
+* [Termux](https://f-droid.org/packages/com.termux/)
+* [Termux:API](https://f-droid.org/en/packages/com.termux.api/)
+* Telegram bot token
+* Telegram chat ID
 
-The project comes pre-configured with:
+## ⚙️ Setup
 
-* Code formatting and linting via `ruff`
-* Static type checking via `mypy`
-* Testing with `pytest`
-* Coverage reporting via `coverage`
-* Security auditing via `pip-audit`
-* Unused dependency detection via `deptry`
-* Conventional commits & versioning via `commitizen`
-* Git hooks via `pre-commit`
-* Secret scanning via `gitleaks`
-* Packaging with `hatchling`
-* Dependency management via `uv`
+### 📱 Install Android apps
 
-All settings target **Python 3.13** with a max line length of 88 characters.
+Install these applications from F-Droid:
 
-## 🛠️ Installation & Usage
+* [Termux](https://f-droid.org/packages/com.termux/)
+* [Termux:API](https://f-droid.org/en/packages/com.termux.api/)
 
-### 💻 Local Setup
+After installation, open **Termux:API** and grant all required permissions, especially for:
 
-1. Make sure you have **Python 3.13 or newer** installed.
+* SMS
+* Call logs
+* Notifications, if requested
 
-2. Sync dependencies (including dev group):
+## 🛠️ Installation
+
+### 💻 Prepare environment in Termux
+
+Update packages:
 
 ```bash
-task sync
+pkg update
 ```
 
-3. Install Git hooks:
+Install required system packages:
 
 ```bash
-task init
+pkg install termux-api git python
 ```
 
-4. Run the application (example module `app.main`):
+Clone the repository:
 
 ```bash
-task run
+git clone https://github.com/NKTKLN/termux-sms2tg
 ```
 
-## 🐳 Docker
-
-Build image:
+Go to the project directory:
 
 ```bash
-task docker-build
+cd termux-sms2tg
 ```
 
-Run container:
+Create a virtual environment if desired:
 
 ```bash
-task docker-run
+python -m venv .venv
+source .venv/bin/activate
 ```
 
-Build and run:
+Install Python dependencies:
 
 ```bash
-task docker
+pip install -r requirements.txt
 ```
 
-## 🧪 Development Commands
-
-Auto-fix lint issues and format code:
+If you use `pyproject.toml` instead of `requirements.txt`, install the project dependencies with:
 
 ```bash
-task fmt
+pip install .
 ```
 
-Run Ruff and MyPy:
+or for development:
 
 ```bash
-task lint
+pip install -e .
 ```
 
-Tests with Coverage:
+## 🔐 Configuration
+
+Before running the application, configure the project variables.
+
+Typically you need to set:
+
+* Telegram bot token
+* Telegram chat ID
+* Termux command settings
+* Optional Telegram proxy
+* Path to the hash storage file
+
+You can do this in `src/termux_sms2tg/config.py`:
+
+```py
+HASH_FILE = "hash.json"
+
+BOT_TOKEN = "your_bot_token_here"
+CHAT_ID = 123456789
+```
+
+Make sure the bot is added to the target chat and allowed to send messages.
+
+## ▶️ Run
+
+Start the application with Python:
 
 ```bash
-task test
+python -m termux_sms2tg.main
 ```
 
-Security audit:
+## ⚠️ Notes
 
-```bash
-task audit
-```
-
-Detect unused libraries:
-
-```bash
-task unused-libs
-```
-
-Full Quality Check:
-
-```bash
-task check
-```
-
-## 🚀 Release Management
-
-Commit using Conventional Commits:
-
-```bash
-task cz-commit
-```
-
-Check commit messages:
-
-```bash
-task cz-check
-```
-
-Bump version and update changelog:
-
-```bash
-task cz-bump
-```
-
-Release (bump + push tags):
-
-```bash
-task release
-```
+* `Termux:API` must be installed, otherwise Termux API commands will not work
+* Android permissions must be granted manually
+* The script uses polling, so it should remain running in Termux
+* Processed records are stored using hashes to avoid duplicate notifications
+* If Telegram is blocked in your region, you may need to configure a proxy
 
 ## 📜 License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE.md) file for details.
