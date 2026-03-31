@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.13"
 
 [[package]]
@@ -705,6 +705,18 @@ wheels = [
 ]
 
 [[package]]
+name = "pytelegrambotapi"
+version = "4.32.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bf/60/f5fb7dedc4b78135a8bbb247d9b619b50e6ea13925b247f9b0c70142d1aa/pytelegrambotapi-4.32.0.tar.gz", hash = "sha256:01d36a5c0df9d1293fc768a802542ad7f4aeb3fcd5d1574b5116d935b3a3313a", size = 1374159, upload-time = "2026-03-09T20:20:56.17Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e4/e8/4fccc4094155749b46482b790d65ec0f930da076070deaea7364d955c8a8/pytelegrambotapi-4.32.0-py3-none-any.whl", hash = "sha256:ed973b302bc7014d06a7ad3cadd76a02e79498ff1e2c4be9e5ca96b0ba352d63", size = 303282, upload-time = "2026-03-09T20:20:54.325Z" },
+]
+
+[[package]]
 name = "pytest"
 version = "9.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -738,6 +750,9 @@ wheels = [
 name = "python-project-template"
 version = "0.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "pytelegrambotapi" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -753,6 +768,7 @@ dev = [
 ]
 
 [package.metadata]
+requires-dist = [{ name = "pytelegrambotapi", specifier = ">=4.32.0" }]
 
 [package.metadata.requires-dev]
 dev = [
