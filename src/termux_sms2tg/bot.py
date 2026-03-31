@@ -23,7 +23,7 @@ class TelegramNotifier:
         "*From:* `{number}`\n"
         "*Received:* `{received}`\n"
         "*Message:*\n"
-        "```{body}```"
+        "```sms\n{body}```"
     )
 
     CALL_NOTIFICATION_MESSAGE = (
