@@ -89,7 +89,7 @@ tasks:
     desc: Run the application
     deps: [sync]
     cmds:
-      - uv run python -m app.main
+      - uv run python -m termux_sms2tg.main
 
   # ======== Build ========
   build:
@@ -97,18 +97,3 @@ tasks:
     deps: [sync]
     cmds:
       - uv build
-
-  # ======== Docker ========
-  docker-build:
-    desc: Build Docker image
-    cmds:
-      - docker build -t python-app .
-
-  docker-run:
-    desc: Run Docker container
-    cmds:
-      - docker run -it --rm python-app
-
-  docker:
-    desc: Build and run Docker
-    deps: [docker-build, docker-run]
